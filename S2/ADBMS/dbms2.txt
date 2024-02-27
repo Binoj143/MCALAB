@@ -1,0 +1,59 @@
+mysql> create table Employee(empid int(20) primary key,name varchar(50),department varchar(50),salary int(50));
+Query OK, 0 rows affected (0.46 sec)
+
+mysql> create table Department(deptid int(20) primary key,deptname varchar(50),hod varchar(50));
+Query OK, 0 rows affected (0.27 sec)
+
+mysql> ALTER TABLE Orders
+    -> ;
+ERROR 1146 (42S02): Table 'AKASHDB.Orders' doesn't exist
+mysql> ALTER TABLE Orders
+    -> ;
+ERROR 1146 (42S02): Table 'AKASHDB.Orders' doesn't exist
+mysql> alter table Employee add foreign key(deptid) references Department(deptid);
+ERROR 1072 (42000): Key column 'deptid' doesn't exist in table
+mysql> alter table Employee add foreign key(department) references Department(deptid);
+ERROR 1215 (HY000): Cannot add foreign key constraint
+mysql> alter table Employee change department deptid int(20);
+Query OK, 0 rows affected (0.75 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table Employee add foreign key(deptid) references Department(deptid);
+Query OK, 0 rows affected (0.69 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc Employee;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| empid  | int(20)     | NO   | PRI | NULL    |       |
+| name   | varchar(50) | YES  |     | NULL    |       |
+| deptid | int(20)     | YES  | MUL | NULL    |       |
+| salary | int(50)     | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+4 rows in set (0.04 sec)
+
+mysql> insert into table Department values(1,'cs','Albert');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'table Department values(1,'cs','Albert')' at line 1
+mysql> insert into Department values(1,'cs','Albert');
+Query OK, 1 row affected (0.06 sec)
+
+mysql> insert into Department values(2,'mca','Antony');
+Query OK, 1 row affected (0.06 sec)
+
+mysql> insert into Employee values(2,'Akash',1,30000);
+Query OK, 1 row affected (0.06 sec)
+
+mysql> insert into Employee values(1,'Alby',2,30000);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select * from Employee;
++-------+-------+--------+--------+
+| empid | name  | deptid | salary |
++-------+-------+--------+--------+
+|     1 | Alby  |      2 |  30000 |
+|     2 | Akash |      1 |  30000 |
++-------+-------+--------+--------+
+2 rows in set (0.02 sec)
+
+

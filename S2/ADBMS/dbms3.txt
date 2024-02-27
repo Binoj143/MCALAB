@@ -1,0 +1,94 @@
+lab2@lab2-OptiPlex-380:~/Desktop/S2/ADBMS$ mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 7
+Server version: 5.7.33-0ubuntu0.16.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2021, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> drop database students;
+Query OK, 0 rows affected (0.40 sec)
+
+mysql> drop database student;
+Query OK, 2 rows affected (0.62 sec)
+
+mysql> create database student;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> create table students(rollno int,name varchar(20),course varchar(20));
+
+mysql> use student;
+Database changed
+mysql> create table students(rollno int,name varchar(20),course varchar(20));
+Query OK, 0 rows affected (0.29 sec)
+
+mysql> insert into students values(1,'Anet','MCA');
+Query OK, 1 row affected (0.08 sec)
+
+mysql> insert into students values(2,'Brian','MCA');
+Query OK, 1 row affected (0.09 sec)
+
+mysql> start transaction ;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> savepoint a;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> insert into students values(3,'Ali','MCA');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from students;
++--------+-------+--------+
+| rollno | name  | course |
++--------+-------+--------+
+|      1 | Anet  | MCA    |
+|      2 | Brian | MCA    |
+|      3 | Ali   | MCA    |
++--------+-------+--------+
+3 rows in set (0.00 sec)
+
+mysql> rollback to a;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> select * from students;
++--------+-------+--------+
+| rollno | name  | course |
++--------+-------+--------+
+|      1 | Anet  | MCA    |
+|      2 | Brian | MCA    |
++--------+-------+--------+
+2 rows in set (0.01 sec)
+
+mysql> commit;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from students;
++--------+-------+--------+
+| rollno | name  | course |
++--------+-------+--------+
+|      1 | Anet  | MCA    |
+|      2 | Brian | MCA    |
++--------+-------+--------+
+2 rows in set (0.00 sec)
+
+mysql> insert into students values(4,'Adith','MCA');
+Query OK, 1 row affected (0.08 sec)
+
+mysql> select * from students;
++--------+-------+--------+
+| rollno | name  | course |
++--------+-------+--------+
+|      1 | Anet  | MCA    |
+|      2 | Brian | MCA    |
+|      4 | Adith | MCA    |
++--------+-------+--------+
+3 rows in set (0.00 sec)
+
+
+

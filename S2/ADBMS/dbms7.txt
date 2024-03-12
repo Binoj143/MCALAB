@@ -1,0 +1,67 @@
+mysql> create database employee;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> use employee;
+Database changed
+
+mysql> create table employee(emp_id INT,emp_name varchar(20),emp_age INT,city varchar(20),income INT);
+Query OK, 0 rows affected (0.31 sec)
+
+mysql> insert into employee values(101,'Peter',32,'Newyork',200000);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into employee values(102,'Mark',32,'California',200000);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into employee values(103,'Donald',40,'Arizona',1000000);Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into employee values(104,'Obama',35,'Florida',5000000);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into employee values(105,'Linklon',45,'Georgia',250000);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> SELECT * from employee;
++--------+----------+---------+------------+---------+
+| emp_id | emp_name | emp_age | city       | income  |
++--------+----------+---------+------------+---------+
+|    101 | Peter    |      32 | Newyork    |  200000 |
+|    102 | Mark     |      32 | California |  200000 |
+|    103 | Donald   |      40 | Arizona    | 1000000 |
+|    104 | Obama    |      35 | Florida    | 5000000 |
+|    105 | Linklon  |      45 | Georgia    |  250000 |
++--------+----------+---------+------------+---------+
+5 rows in set (0.00 sec)
+
+
+mysql> SELECT emp_name,city,income FROM employee WHERE emp_id IN(SELECT emp_id FROM employee);
++----------+------------+---------+
+| emp_name | city       | income  |
++----------+------------+---------+
+| Peter    | Newyork    |  200000 |
+| Mark     | California |  200000 |
+| Donald   | Arizona    | 1000000 |
+| Obama    | Florida    | 5000000 |
+| Linklon  | Georgia    |  250000 |
++----------+------------+---------+
+5 rows in set (0.02 sec)
+
+
+mysql> SELECT * FROM employee WHERE emp_id IN(SELECT emp_id FROM employee WHERE income >350000);
++--------+----------+---------+---------+---------+
+| emp_id | emp_name | emp_age | city    | income  |
++--------+----------+---------+---------+---------+
+|    103 | Donald   |      40 | Arizona | 1000000 |
+|    104 | Obama    |      35 | Florida | 5000000 |
++--------+----------+---------+---------+---------+
+2 rows in set (0.00 sec)
+
+
+mysql> SELECT emp_name,city,income FROM employee WHERE income=(SELECT MAX(income)FROM employee);
++----------+---------+---------+
+| emp_name | city    | income  |
++----------+---------+---------+
+| Obama    | Florida | 5000000 |
++----------+---------+---------+
+1 row in set (0.00 sec)
+

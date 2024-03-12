@@ -1,0 +1,179 @@
+mysql> create table employees(emp_id int(20) primary key,name varchar(50),gender varchar(10),dept varchar(50),education varchar(50),moj varchar(50),salary int(50));
+Query OK, 0 rows affected (0.46 sec)
+
+mysql> insert into employees values(1001,'Ajay','M','Engineering','Doctoral','January',25);
+Query OK, 1 row affected (0.08 sec)
+
+mysql> insert into employees values(1002,'Babloo','M','Engineering','UG','February',23);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into employees values(1003,'Chhavi','F','HR','PG','March',15);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into employees values(1004,'Dheeraj','M','HR','UG','January',12);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into employees values(1005,'Evina','F','Marketing','UG','March',16);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select * from employees;
++--------+---------+--------+-------------+-----------+----------+--------+
+| emp_id | name    | gender | dept        | education | moj      | salary |
++--------+---------+--------+-------------+-----------+----------+--------+
+|   1001 | Ajay    | M      | Engineering | Doctoral  | January  |     25 |
+|   1002 | Babloo  | M      | Engineering | UG        | February |     23 |
+|   1003 | Chhavi  | F      | HR          | PG        | March    |     15 |
+|   1004 | Dheeraj | M      | HR          | UG        | January  |     12 |
+|   1005 | Evina   | F      | Marketing   | UG        | March    |     16 |
++--------+---------+--------+-------------+-----------+----------+--------+
+5 rows in set (0.00 sec)
+
+mysql> insert into employees values(1006,'Fredy','M','Sales','UG','December',10);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into employees values(1007,'Garima','F','Sales','PG','March',10);Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into employees values(1008,'Hans','M','Admin','PG','November',8);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into employees values(1009,'Ivanka','F','Admin','Intermediate','April',7);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into employees values(1010,'Jai','M','Peon','High School','December',4);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> select * from employees;
++--------+---------+--------+-------------+--------------+----------+--------+
+| emp_id | name    | gender | dept        | education    | moj      | salary |
++--------+---------+--------+-------------+--------------+----------+--------+
+|   1001 | Ajay    | M      | Engineering | Doctoral     | January  |     25 |
+|   1002 | Babloo  | M      | Engineering | UG           | February |     23 |
+|   1003 | Chhavi  | F      | HR          | PG           | March    |     15 |
+|   1004 | Dheeraj | M      | HR          | UG           | January  |     12 |
+|   1005 | Evina   | F      | Marketing   | UG           | March    |     16 |
+|   1006 | Fredy   | M      | Sales       | UG           | December |     10 |
+|   1007 | Garima  | F      | Sales       | PG           | March    |     10 |
+|   1008 | Hans    | M      | Admin       | PG           | November |      8 |
+|   1009 | Ivanka  | F      | Admin       | Intermediate | April    |      7 |
+|   1010 | Jai     | M      | Peon        | High School  | December |      4 |
++--------+---------+--------+-------------+--------------+----------+--------+
+10 rows in set (0.00 sec)
+
+mysql> SELECT Department, SUM(Salary)
+    -> FROM Employee
+    -> 
+    -> ;
+ERROR 1054 (42S22): Unknown column 'Department' in 'field list'
+mysql> select dept,SUM(salary) from employees group by dept;
++-------------+-------------+
+| dept        | SUM(salary) |
++-------------+-------------+
+| Admin       |          15 |
+| Engineering |          48 |
+| HR          |          27 |
+| Marketing   |          16 |
+| Peon        |           4 |
+| Sales       |          20 |
++-------------+-------------+
+6 rows in set (0.05 sec)
+
+mysql> select SELECT Department, SUM(Salary)
+    -> FROM Employee
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SELECT Department, SUM(Salary)
+FROM Employee' at line 1
+mysql> select dept,sum(salary) from employees group by dept having sum(salary)>=20;
++-------------+-------------+
+| dept        | sum(salary) |
++-------------+-------------+
+| Engineering |          48 |
+| HR          |          27 |
+| Sales       |          20 |
++-------------+-------------+
+3 rows in set (0.03 sec)
+
+mysql> select distinct dept from employees;
++-------------+
+| dept        |
++-------------+
+| Engineering |
+| HR          |
+| Marketing   |
+| Sales       |
+| Admin       |
+| Peon        |
++-------------+
+6 rows in set (0.00 sec)
+
+mysql> select count(salary) from employees;
++---------------+
+| count(salary) |
++---------------+
+|            10 |
++---------------+
+1 row in set (0.01 sec)
+
+mysql> select * from employees where dept='Engineering' and education='Doctoral';
++--------+------+--------+-------------+-----------+---------+--------+
+| emp_id | name | gender | dept        | education | moj     | salary |
++--------+------+--------+-------------+-----------+---------+--------+
+|   1001 | Ajay | M      | Engineering | Doctoral  | January |     25 |
++--------+------+--------+-------------+-----------+---------+--------+
+1 row in set (0.04 sec)
+
+mysql> select * from employees where dept='Engineering' or education='Doctoral';
++--------+--------+--------+-------------+-----------+----------+--------+
+| emp_id | name   | gender | dept        | education | moj      | salary |
++--------+--------+--------+-------------+-----------+----------+--------+
+|   1001 | Ajay   | M      | Engineering | Doctoral  | January  |     25 |
+|   1002 | Babloo | M      | Engineering | UG        | February |     23 |
++--------+--------+--------+-------------+-----------+----------+--------+
+2 rows in set (0.00 sec)
+
+mysql> select name as first_name,education as qualification from employees;
++------------+---------------+
+| first_name | qualification |
++------------+---------------+
+| Ajay       | Doctoral      |
+| Babloo     | UG            |
+| Chhavi     | PG            |
+| Dheeraj    | UG            |
+| Evina      | UG            |
+| Fredy      | UG            |
+| Garima     | PG            |
+| Hans       | PG            |
+| Ivanka     | Intermediate  |
+| Jai        | High School   |
++------------+---------------+
+10 rows in set (0.00 sec)
+
+mysql> select * from employees where name like 'A%';
++--------+------+--------+-------------+-----------+---------+--------+
+| emp_id | name | gender | dept        | education | moj     | salary |
++--------+------+--------+-------------+-----------+---------+--------+
+|   1001 | Ajay | M      | Engineering | Doctoral  | January |     25 |
++--------+------+--------+-------------+-----------+---------+--------+
+1 row in set (0.00 sec)
+
+mysql> select dept,sum(salary) from employees where education<>'UG' group by dept having sum(salary)>=20;
++-------------+-------------+
+| dept        | sum(salary) |
++-------------+-------------+
+| Engineering |          25 |
++-------------+-------------+
+1 row in set (0.00 sec)
+
+mysql> select dept,sum(salary) from employees group by dept having sum(salary)>=15 order by sum(salary) desc;
++-------------+-------------+
+| dept        | sum(salary) |
++-------------+-------------+
+| Engineering |          48 |
+| HR          |          27 |
+| Sales       |          20 |
+| Marketing   |          16 |
+| Admin       |          15 |
++-------------+-------------+
+5 rows in set (0.00 sec)
+
+mysql> 
+

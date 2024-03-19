@@ -1,0 +1,88 @@
+mysql> use MCA;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+
+
+
+1-
+mysql> delimiter //
+mysql> create procedure display1()
+    -> begin
+    -> select * from sailors;
+    -> end
+    -> //
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> delimiter ;
+mysql> call display1();
++-----+---------+--------+------+
+| sid | sname   | rating | age  |
++-----+---------+--------+------+
+|  22 | Dustin  |      7 |   45 |
+|  29 | Brutus  |      1 |   33 |
+|  31 | Lubber  |      8 | 55.5 |
+|  32 | Andy    |      8 | 25.5 |
+|  58 | Rusty   |     10 | 35.5 |
+|  64 | Horatio |      7 |   35 |
+|  71 | Zobra   |     10 |   16 |
+|  74 | Horatio |      9 |   35 |
+|  85 | Art     |      3 |   25 |
+|  95 | Bob     |      3 | 63.5 |
++-----+---------+--------+------+
+10 rows in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+
+
+
+
+2-
+mysql> DELIMITER //
+mysql> CREATE PROCEDURE `sum`(IN a INT, IN b INT)
+    -> BEGIN
+    -> DECLARE c INT;
+    -> SET c = a + b;
+    -> SELECT CONCAT('Sum of two numbers = ', c) AS Result;
+    -> END //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+mysql> CALL `sum`(5, 10);
++-------------------------+
+| Result                  |
++-------------------------+
+| Sum of two numbers = 15 |
++-------------------------+
+1 row in set (0.01 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+
+
+
+
+3-
+mysql> DELIMITER //
+mysql> CREATE PROCEDURE CheckOddOrEven(IN input_number INT)
+    -> BEGIN
+    -> IF MOD(input_number, 2) = 0 THEN
+    -> SELECT 'Even' AS result;
+    -> ELSE
+    -> SELECT 'Odd' AS result;
+    -> END IF;
+    -> END //
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> delimiter ;
+mysql> call CheckOddOrEven(2);
++--------+
+| result |
++--------+
+| Even   |
++--------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+

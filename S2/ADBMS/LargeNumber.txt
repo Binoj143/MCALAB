@@ -1,0 +1,26 @@
+mysql> delimiter //
+mysql> create procedure LargeNum(in num1 int,in num2 int,in num3 int)
+    -> begin
+    -> if num1 > num2 and num1 > num3 then
+    -> select concat(num1,' is the Largest Number') as result;
+    -> elseif num2 > num3 then
+    -> select concat(num2,' is the Largest Number') as result;
+    -> else
+    -> select concat(num3,' is the Largest Number') as result;
+    -> end if;
+    -> end //
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> delimiter ;
+mysql> call LargeNum(2,8,6);
++-------------------------+
+| result                  |
++-------------------------+
+| 8 is the Largest Number |
++-------------------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> 
+

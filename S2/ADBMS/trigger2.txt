@@ -1,0 +1,129 @@
+mysql> create table std1(studentid int primary key,name varchar(20),sub1 int,sub2 int,sub3 int,sub4 int,sub5 int,total int,per_marks int,grade varchar(20));
+Query OK, 0 rows affected (0.29 sec)
+
+mysql> insert into std1(studentid,name,sub1,sub2,sub3,sub4,sub5)values(1,'student1',0,0,0,0,0),(2,'student2',0,0,0,0,0);
+Query OK, 2 rows affected (0.08 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from std1;
++-----------+----------+------+------+------+------+------+-------+-----------+-------+
+| studentid | name     | sub1 | sub2 | sub3 | sub4 | sub5 | total | per_marks | grade |
++-----------+----------+------+------+------+------+------+-------+-----------+-------+
+|         1 | student1 |    0 |    0 |    0 |    0 |    0 |  NULL |      NULL | NULL  |
+|         2 | student2 |    0 |    0 |    0 |    0 |    0 |  NULL |      NULL | NULL  |
++-----------+----------+------+------+------+------+------+-------+-----------+-------+
+2 rows in set (0.00 sec)
+
+mysql> delimiter //
+mysql> create trigger std_before_update
+    -> before update on std1
+    -> for each row
+    -> begin
+    -> declare total_marks int;
+    -> declare per_marks int;
+    -> declare grade varchar(20);
+    -> set total_marks = new.sub1+new.sub2+new.sub3+new.sub4+new.sub5;
+    -> set per_marks=total_marks/5;
+    -> if per_marks>=90 then
+    -> set grade = 'Excellent';
+    -> elseif per_marks>=75 and per_marks<90 then
+    -> set grade='very good';
+    -> elseif per_marks>=60 and per_marks<75 then
+    -> set grade = 'good';
+    -> elseif per_marks>=40 and per_marks<60 then
+    -> set grade = 'Average';
+    -> else
+    -> set grade = 'Not Promoted';
+    -> end if;
+    -> set new.total = total_marks;
+    -> set new.per_marks = per_marks;
+    -> set new.grade = grade;
+    -> end;
+    -> //
+Query OK, 0 rows affected (0.18 sec)
+
+mysql> delimiter ;
+mysql> update std1 set sub1=90,sub2=75,sub3=90,sub4=95,sub5=85 where studentid=1;
+Query OK, 1 row affected (0.16 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from std1;
++-----------+----------+------+------+------+------+------+-------+-----------+-----------+
+| studentid | name     | sub1 | sub2 | sub3 | sub4 | sub5 | total | per_marks | grade     |
++-----------+----------+------+------+------+------+------+-------+-----------+-----------+
+|         1 | student1 |   90 |   75 |   90 |   95 |   85 |   435 |        87 | very good |
+|         2 | student2 |    0 |    0 |    0 |    0 |    0 |  NULL |      NULL | NULL      |
++-----------+----------+------+------+------+------+------+-------+-----------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> update std1 set sub1=80,sub2=95,sub3=80,sub4=70,sub5=100 where studentid=2;
+Query OK, 1 row affected (0.04 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from std1;
++-----------+----------+------+------+------+------+------+-------+-----------+-----------+
+| studentid | name     | sub1 | sub2 | sub3 | sub4 | sub5 | total | per_marks | grade     |
++-----------+----------+------+------+------+------+------+-------+-----------+-----------+
+|         1 | student1 |   90 |   75 |   90 |   95 |   85 |   435 |        87 | very good |
+|         2 | student2 |   80 |   95 |   80 |   70 |  100 |   425 |        85 | very good |
++-----------+----------+------+------+------+------+------+-------+-----------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> insert into std1(studentid,name,sub1,sub2,sub3,sub4,sub5)values(3,'student3',0,0,0,0,0);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select * from std1;
++-----------+----------+------+------+------+------+------+-------+-----------+-----------+
+| studentid | name     | sub1 | sub2 | sub3 | sub4 | sub5 | total | per_marks | grade     |
++-----------+----------+------+------+------+------+------+-------+-----------+-----------+
+|         1 | student1 |   90 |   75 |   90 |   95 |   85 |   435 |        87 | very good |
+|         2 | student2 |   80 |   95 |   80 |   70 |  100 |   425 |        85 | very good |
+|         3 | student3 |    0 |    0 |    0 |    0 |    0 |  NULL |      NULL | NULL      |
++-----------+----------+------+------+------+------+------+-------+-----------+-----------+
+3 rows in set (0.00 sec)
+
+mysql> update std1 set sub1=70,sub2=75,sub3=80,sub4=85,sub5=65 where studentid=3;
+Query OK, 1 row affected (0.03 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from std1;
++-----------+----------+------+------+------+------+------+-------+-----------+-----------+
+| studentid | name     | sub1 | sub2 | sub3 | sub4 | sub5 | total | per_marks | grade     |
++-----------+----------+------+------+------+------+------+-------+-----------+-----------+
+|         1 | student1 |   90 |   75 |   90 |   95 |   85 |   435 |        87 | very good |
+|         2 | student2 |   80 |   95 |   80 |   70 |  100 |   425 |        85 | very good |
+|         3 | student3 |   70 |   75 |   80 |   85 |   65 |   375 |        75 | very good |
++-----------+----------+------+------+------+------+------+-------+-----------+-----------+
+3 rows in set (0.00 sec)
+
+mysql> insert into std1(studentid,name,sub1,sub2,sub3,sub4,sub5)values(4,'student4',75,80,85,90,95);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select * from std1;
++-----------+----------+------+------+------+------+------+-------+-----------+-----------+
+| studentid | name     | sub1 | sub2 | sub3 | sub4 | sub5 | total | per_marks | grade     |
++-----------+----------+------+------+------+------+------+-------+-----------+-----------+
+|         1 | student1 |   90 |   75 |   90 |   95 |   85 |   435 |        87 | very good |
+|         2 | student2 |   80 |   95 |   80 |   70 |  100 |   425 |        85 | very good |
+|         3 | student3 |   70 |   75 |   80 |   85 |   65 |   375 |        75 | very good |
+|         4 | student4 |   75 |   80 |   85 |   90 |   95 |  NULL |      NULL | NULL      |
++-----------+----------+------+------+------+------+------+-------+-----------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> update std1 set sub1=80 where studentid=4;
+Query OK, 1 row affected (0.03 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from std1;
++-----------+----------+------+------+------+------+------+-------+-----------+-----------+
+| studentid | name     | sub1 | sub2 | sub3 | sub4 | sub5 | total | per_marks | grade     |
++-----------+----------+------+------+------+------+------+-------+-----------+-----------+
+|         1 | student1 |   90 |   75 |   90 |   95 |   85 |   435 |        87 | very good |
+|         2 | student2 |   80 |   95 |   80 |   70 |  100 |   425 |        85 | very good |
+|         3 | student3 |   70 |   75 |   80 |   85 |   65 |   375 |        75 | very good |
+|         4 | student4 |   80 |   80 |   85 |   90 |   95 |   430 |        86 | very good |
++-----------+----------+------+------+------+------+------+-------+-----------+-----------+
+4 rows in set (0.01 sec)
+
+mysql> 
+

@@ -1,0 +1,36 @@
+mysql> delimiter //
+mysql> create procedure factorial(in num int)
+    -> begin
+    -> declare f int default 1;
+    -> while num > 0 do
+    -> set f = f * num;
+    -> set num = num - 1;
+    -> end while;
+    -> select concat('Factorial=',f) as result;
+    -> end //
+Query OK, 0 rows affected (0.44 sec)
+
+mysql> delimiter ;
+mysql> call factorial(10);
++-------------------+
+| result            |
++-------------------+
+| Factorial=3628800 |
++-------------------+
+1 row in set (0.11 sec)
+
+Query OK, 0 rows affected (0.11 sec)
+
+mysql> delimiter ;
+mysql> call factorial(6);
++---------------+
+| result        |
++---------------+
+| Factorial=720 |
++---------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> 
+

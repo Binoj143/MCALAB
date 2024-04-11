@@ -1,4 +1,4 @@
-2. Performing CRUD Operations - Product Catalog
+    2. Performing CRUD Operations - Product Catalog
 • Create a NoSQL database named "ProductCatalog".
 • Create a collection named "Products" with fields: "ProductID", "ProductName",
   "Price", and "Quantity".

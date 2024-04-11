@@ -1,0 +1,30 @@
+
+mysql> delimiter //
+mysql> create procedure SumOfDigits(in num int)
+    -> begin
+    -> declare sum int default 0;
+    -> declare a int;
+    -> declare digit int;
+    -> set a = num;
+    -> while a > 0 do
+    -> set digit = a % 10;
+    -> set sum = sum + digit;
+    -> set a = a/10;
+    -> end while;
+    -> select concat('Sum of Digits=',sum) as result;
+    -> end //
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> delimiter ;
+mysql> call SumOfDigits(123);
++-----------------+
+| result          |
++-----------------+
+| Sum of Digits=6 |
++-----------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> 
+

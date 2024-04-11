@@ -1,0 +1,348 @@
+    -> 
+[1]+  Stopped                 mysql -u root -p
+lab2@lab2-OptiPlex-380:~$ create database Employee;
+No command 'create' found, did you mean:
+ Command 'pcreate' from package 'python-pyramid' (universe)
+ Command 'pcreate' from package 'pbuilder-scripts' (universe)
+create: command not found
+lab2@lab2-OptiPlex-380:~$ mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 6
+Server version: 5.7.33-0ubuntu0.16.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2021, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> create database Employee;
+Query OK, 1 row affected (0.05 sec)
+
+mysql> use Employee
+Database changed
+
+mysql> CREATE TABLE EMPLOYEE(Emp_id INTEGER PRIMARY KEY,Emp_Name TEXT NOT NULL,Emp_Add TEXT NOT NULL,Dept_id TEXT NOT NULL,Dept_Name TEXT NOT NULL,Salary TEXT NOT NULL);
+Query OK, 0 rows affected (0.56 sec)
+
+mysql> desc Employee;
+ERROR 1146 (42S02): Table 'Employee.Employee' doesn't exist
+mysql> desc EMPLOYEE;
++-----------+---------+------+-----+---------+-------+
+| Field     | Type    | Null | Key | Default | Extra |
++-----------+---------+------+-----+---------+-------+
+| Emp_id    | int(11) | NO   | PRI | NULL    |       |
+| Emp_Name  | text    | NO   |     | NULL    |       |
+| Emp_Add   | text    | NO   |     | NULL    |       |
+| Dept_id   | text    | NO   |     | NULL    |       |
+| Dept_Name | text    | NO   |     | NULL    |       |
+| Salary    | text    | NO   |     | NULL    |       |
++-----------+---------+------+-----+---------+-------+
+6 rows in set (0.01 sec)
+
+
+mysql> Alter table EMPLOYEE Add Emp_Phone TEXT NOT NULL;
+Query OK, 0 rows affected (0.46 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc EMPLOYEE;
++-----------+---------+------+-----+---------+-------+
+| Field     | Type    | Null | Key | Default | Extra |
++-----------+---------+------+-----+---------+-------+
+| Emp_id    | int(11) | NO   | PRI | NULL    |       |
+| Emp_Name  | text    | NO   |     | NULL    |       |
+| Emp_Add   | text    | NO   |     | NULL    |       |
+| Dept_id   | text    | NO   |     | NULL    |       |
+| Dept_Name | text    | NO   |     | NULL    |       |
+| Salary    | text    | NO   |     | NULL    |       |
+| Emp_Phone | text    | NO   |     | NULL    |       |
++-----------+---------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+mysql> INSERT INTO EMPLOYEE VALUES(1,'Ramesh','GNoida','0011','Sales','60000','9876543213');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> INSERT INTO EMPLOYEE VALUES(2,'Suresh','GNoida','0072','Sales','75000','9876543243');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> INSERT INTO EMPLOYEE VALUES(3,'Rajesh','GNoida','2324','Sales','28000','9446543213');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> INSERT INTO EMPLOYEE VALUES(4,'Suresh','GNoida','8883','Sales','35000','9446543213');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> INSERT INTO EMPLOYEE VALUES(4,'Rakesh','GNoida','74568','Sales','90000','9446533213');
+ERROR 1062 (23000): Duplicate entry '4' for key 'PRIMARY'
+mysql> INSERT INTO EMPLOYEE VALUES(5,'Rakesh','GNoida','74568','Sales','90000','9446533213');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select* from EMPLOYEE;
++--------+----------+---------+---------+-----------+--------+------------+
+| Emp_id | Emp_Name | Emp_Add | Dept_id | Dept_Name | Salary | Emp_Phone  |
++--------+----------+---------+---------+-----------+--------+------------+
+|      1 | Ramesh   | GNoida  | 0011    | Sales     | 60000  | 9876543213 |
+|      2 | Suresh   | GNoida  | 0072    | Sales     | 75000  | 9876543243 |
+|      3 | Rajesh   | GNoida  | 2324    | Sales     | 28000  | 9446543213 |
+|      4 | Suresh   | GNoida  | 8883    | Sales     | 35000  | 9446543213 |
+|      5 | Rakesh   | GNoida  | 74568   | Sales     | 90000  | 9446533213 |
++--------+----------+---------+---------+-----------+--------+------------+
+5 rows in set (0.00 sec)
+
+mysql> create user 'Sumesh'identified by'all';
+Query OK, 0 rows affected (0.08 sec)
+
+mysql> grant all Employee to Sumesh;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Employee to Sumesh' at line 1
+mysql> grant all on Employee to Sumesh;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select* from EMPLOYEE;
++--------+----------+---------+---------+-----------+--------+------------+
+| Emp_id | Emp_Name | Emp_Add | Dept_id | Dept_Name | Salary | Emp_Phone  |
++--------+----------+---------+---------+-----------+--------+------------+
+|      1 | Ramesh   | GNoida  | 0011    | Sales     | 60000  | 9876543213 |
+|      2 | Suresh   | GNoida  | 0072    | Sales     | 75000  | 9876543243 |
+|      3 | Rajesh   | GNoida  | 2324    | Sales     | 28000  | 9446543213 |
+|      4 | Suresh   | GNoida  | 8883    | Sales     | 35000  | 9446543213 |
+|      5 | Rakesh   | GNoida  | 74568   | Sales     | 90000  | 9446533213 |
++--------+----------+---------+---------+-----------+--------+------------+
+5 rows in set (0.00 sec)
+
+mysql> revoke all on Employee from Sumesh;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> show grants for Sumesh;
++------------------------------------+
+| Grants for Sumesh@%                |
++------------------------------------+
+| GRANT USAGE ON *.* TO 'Sumesh'@'%' |
++------------------------------------+
+1 row in set (0.00 sec)
+
+mysql> grant all on Employee to Sumesh;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> quit;
+Bye
+lab2@lab2-OptiPlex-380:~$ mysql -u root Sumesh;
+ERROR 1045 (28000): Access denied for user 'root'@'localhost' (using password: NO)
+lab2@lab2-OptiPlex-380:~$ mysql -u Sumesh -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 5.7.33-0ubuntu0.16.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2021, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> desc Employee;
+ERROR 1046 (3D000): No database selected
+mysql> use Employee;
+Database changed
+mysql> desc Employee;
+ERROR 1146 (42S02): Table 'Employee.Employee' doesn't exist
+mysql> show Employee;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Employee' at line 1
+mysql> select*from Employee;
+ERROR 1146 (42S02): Table 'Employee.Employee' doesn't exist
+mysql> select * from Employee;
+ERROR 1146 (42S02): Table 'Employee.Employee' doesn't exist
+mysql> select * from EMPLOYEE;
+ERROR 1142 (42000): SELECT command denied to user 'Sumesh'@'localhost' for table 'EMPLOYEE'
+mysql> Select * from EMPLOYEE;
+ERROR 1142 (42000): SELECT command denied to user 'Sumesh'@'localhost' for table 'EMPLOYEE'
+mysql> Select * from Sumesh;
+ERROR 1142 (42000): SELECT command denied to user 'Sumesh'@'localhost' for table 'Sumesh'
+mysql> Select * from EMPLOYEE;
+ERROR 1142 (42000): SELECT command denied to user 'Sumesh'@'localhost' for table 'EMPLOYEE'
+mysql> update Employee set Emp_Name='Krepesh' where Emp_id=5;
+ERROR 1146 (42S02): Table 'Employee.Employee' doesn't exist
+mysql> update EMPLOYEE set Emp_Name='Krepesh' where Emp_id=5;
+ERROR 1142 (42000): UPDATE command denied to user 'Sumesh'@'localhost' for table 'EMPLOYEE'
+mysql> ^C
+mysql> ^C
+mysql> 
+[2]+  Stopped                 mysql -u Sumesh -p
+lab2@lab2-OptiPlex-380:~$ mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 9
+Server version: 5.7.33-0ubuntu0.16.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2021, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use Employee
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> grant all on Employee to Sumesh;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> quit;
+Bye
+lab2@lab2-OptiPlex-380:~$ mysql -u Sumesh -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 10
+Server version: 5.7.33-0ubuntu0.16.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2021, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use database Employee;
+ERROR 1044 (42000): Access denied for user 'Sumesh'@'%' to database 'database'
+mysql> 
+[3]+  Stopped                 mysql -u Sumesh -p
+lab2@lab2-OptiPlex-380:~$ mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 11
+Server version: 5.7.33-0ubuntu0.16.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2021, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use Employee
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> grant all on EMPLOYEE to Sumesh;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> quit;
+Bye
+lab2@lab2-OptiPlex-380:~$ mysql -u Sumesh -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 12
+Server version: 5.7.33-0ubuntu0.16.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2021, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use Employee
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> select* from EMPLOYEE;
++--------+----------+---------+---------+-----------+--------+------------+
+| Emp_id | Emp_Name | Emp_Add | Dept_id | Dept_Name | Salary | Emp_Phone  |
++--------+----------+---------+---------+-----------+--------+------------+
+|      1 | Ramesh   | GNoida  | 0011    | Sales     | 60000  | 9876543213 |
+|      2 | Suresh   | GNoida  | 0072    | Sales     | 75000  | 9876543243 |
+|      3 | Rajesh   | GNoida  | 2324    | Sales     | 28000  | 9446543213 |
+|      4 | Suresh   | GNoida  | 8883    | Sales     | 35000  | 9446543213 |
+|      5 | Rakesh   | GNoida  | 74568   | Sales     | 90000  | 9446533213 |
++--------+----------+---------+---------+-----------+--------+------------+
+5 rows in set (0.00 sec)
+
+mysql> update employee set Emp_Name='krepesh'where emp_id=5;
+ERROR 1142 (42000): UPDATE command denied to user 'Sumesh'@'localhost' for table 'employee'
+mysql> update EMPLOYEE set Emp_Name='krepesh'where emp_id=5;
+Query OK, 1 row affected (0.07 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select* from EMPLOYEE;
++--------+----------+---------+---------+-----------+--------+------------+
+| Emp_id | Emp_Name | Emp_Add | Dept_id | Dept_Name | Salary | Emp_Phone  |
++--------+----------+---------+---------+-----------+--------+------------+
+|      1 | Ramesh   | GNoida  | 0011    | Sales     | 60000  | 9876543213 |
+|      2 | Suresh   | GNoida  | 0072    | Sales     | 75000  | 9876543243 |
+|      3 | Rajesh   | GNoida  | 2324    | Sales     | 28000  | 9446543213 |
+|      4 | Suresh   | GNoida  | 8883    | Sales     | 35000  | 9446543213 |
+|      5 | krepesh  | GNoida  | 74568   | Sales     | 90000  | 9446533213 |
++--------+----------+---------+---------+-----------+--------+------------+
+5 rows in set (0.00 sec)
+
+mysql> quit;
+Bye
+lab2@lab2-OptiPlex-380:~$ mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 13
+Server version: 5.7.33-0ubuntu0.16.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2021, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use Employee
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> revoke all on Employee to Sumesh;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'to Sumesh' at line 1
+mysql> revoke all on EMPLOYEE to Sumesh;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'to Sumesh' at line 1
+mysql> use Employee;
+Database changed
+mysql> revoke all on EMPLOYEE to Sumesh;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'to Sumesh' at line 1
+mysql> revoke all on Employee to Sumesh;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'to Sumesh' at line 1
+mysql> revoke all from Employee to Sumesh;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from Employee to Sumesh' at line 1
+mysql> revoke all from EMPLOYEE to Sumesh;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from EMPLOYEE to Sumesh' at line 1
+mysql> revoke all on EMPLOYEE from Sumesh;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> quit;
+Bye
+lab2@lab2-OptiPlex-380:~$ mysql -u Sumesh -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 14
+Server version: 5.7.33-0ubuntu0.16.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2021, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use Employee;
+Database changed
+mysql> select* from EMPLOYEE;
+ERROR 1142 (42000): SELECT command denied to user 'Sumesh'@'localhost' for table 'EMPLOYEE'
+mysql> 
+
